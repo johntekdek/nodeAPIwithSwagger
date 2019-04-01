@@ -10,9 +10,22 @@ module.exports.createUser = async serviceData => {
       password: serviceData.password,
       phone: serviceData.phone
     });
-    let data ={
+    let data = {
         model:user
     }
     let responseFromDatabase = await crudRepository.insertData(data)
-  } catch (err) {}
+    switch(responseFromDatabase.status){
+      case constants.databaseStatus.ENTITY_CREATED:
+        responseObj.body =responseFromDatabase.result
+        responseObj.status = constants.serviceSatus.USER_CREATED_SUCCESSFULLY
+        break
+      defult:
+        responseObj = constants.responseObj
+        break
+    }
+    return responseObj
+  } catch (err) {
+    console.log('something went wrong:Service : create user',err)
+    return responseObj = constants.responseObj
+  }
 };
