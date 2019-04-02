@@ -19,6 +19,7 @@ controllerStatus:{
 
 },
 serviceSatus:{
-    USER_CREATED_SUCCESSFULLY:'User created Succesfully'
+    USER_CREATED_SUCCESSFULLY:'User created Succesfully',
+    USER_LIST_FETCHED_SUCCESSFULLY:'User list fetched successfully '
 }
 };
