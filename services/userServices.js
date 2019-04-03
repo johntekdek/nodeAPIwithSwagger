@@ -12,8 +12,6 @@ module.exports.createUser = async serviceData => {
     });
     let data = {
       model: user,
-      excludeFields: '',
-      pagination: {},
     };
     let responseFromDatabase = await crudRepository.insertData (data);
     switch (responseFromDatabase.status) {
