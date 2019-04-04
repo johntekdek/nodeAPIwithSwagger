@@ -1,4 +1,5 @@
-let myMuse={}
-myMuse.name= "john tekdek";
+let  myNum = 2;
+const myWord = 'john';
 
-console.log(myMuse)
+
+console.log(myWord )

@@ -65,3 +65,27 @@ module.exports.find = data => {
     }
   });
 };
+
+module.exports.findOneAndUpdate = data => {
+  return new Promise ((resolve, reject) => {
+    try {
+      data.model.findOneAndUpdate
+        .find (data.findquery,data.updateQuery)
+        .then (docs => {
+          //success
+          resolve ({
+            results: docs,
+            status: constants.databaseStatus.ENTITY_MODIFIED
+          });
+        })
+        .catch (err => {
+          reject ({
+            error: err.message,
+            status: constants.databaseStatus.DATABASE_ERROR,
+          });
+        });
+    } catch (err) {
+      console.log ('Something went wrong:CrudRepository:findOneAndUpdate', err);
+    }
+  });
+};
