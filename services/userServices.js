@@ -97,18 +97,26 @@ module.exports.updateUser = async serviceData => {
   let responseObj = {};
   try {
     let data = {
-      query: {
+      findQuery: {
         _id: mongoose.Types.ObjectId (serviceData.userId),
       },
       model: User,
-      excludeFields: '', // to add stuff '-password -_v'
+      updateQuery:{}
     };
-
-    let responseFromDatabase = await crudRepository.find (data);
+    if(serviceData.name){
+      data.updateQuery.name=serviceData.name
+    }
+    if(serviceData.password){
+      data.updateQuery.password=serviceData.password
+    }
+    if(serviceData.phone){
+      data.updateQuery.phone=serviceData.phone
+    }
+    let responseFromDatabase = await crudRepository.findOneAndUpdate (data);
     switch (responseFromDatabase.status) {
-      case constants.databaseStatus.ENTITY_FETCHED:
+      case constants.databaseStatus.ENTITY_MODIFIED:
         responseObj.body = responseFromDatabase.result;
-        responseObj.status = constants.serviceSatus.USER_FETCHED_SUCCESSFULLY;
+        responseObj.status = constants.serviceSatus.USER_UPDATED_SUCCESSFULLY;
         break;
       default:
         responseObj = constants.responseObj;
@@ -116,7 +124,7 @@ module.exports.updateUser = async serviceData => {
     }
     return responseObj;
   } catch (err) {
-    console.log ('Something went wrong:Service : get user detail', err);
+    console.log ('Something went wrong:Service : update user detail', err);
     return (responseObj = constants.responseObj);
   }
 };
