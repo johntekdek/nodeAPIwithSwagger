@@ -3,6 +3,7 @@ const router = express.Router ();
 const userController = require ('../controller/userController');
 const joiSchemaValidation = require ('../helper/joiSchemaValidation');
 const userSchema = require ('../models/api/userSchema');
+const tokenValidation = require ('../helper/tokenValidation');
 
 router.post (
   '/authenticate',
@@ -17,6 +18,7 @@ router.post (
 );
 router.get (
   '/list',
+  tokenValidation.validateToken (),
   joiSchemaValidation.validateQueryParams (userSchema.getUserListQuerySchema),
   userController.getUserList
 );
