@@ -89,3 +89,28 @@ module.exports.findOneAndUpdate = data => {
     }
   });
 };
+
+
+module.exports.deleteOne = data => {
+  return new Promise ((resolve, reject) => {
+    try {
+      data.model.findOneAndUpdate
+        .find (data.findquery,data.updateQuery)
+        .then (docs => {
+          //success
+          resolve ({
+            results: docs,
+            status: constants.databaseStatus.ENTITY_DELETED
+          });
+        })
+        .catch (err => {
+          reject ({
+            error: err.message,
+            status: constants.databaseStatus.DATABASE_ERROR,
+          });
+        });
+    } catch (err) {
+      console.log ('Something went wrong:CrudRepository:delete one', err);
+    }
+  });
+};

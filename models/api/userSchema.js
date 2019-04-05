@@ -32,10 +32,16 @@ const updateUserSchema = Joi.object().keys({
     password:Joi.string().optional()
 })
 
+const deleteUserPathParamSchema = Joi.object().keys({
+    userId:Joi.string().required()
+})
+
 module.exports = {
     'createUserSchema':createUserSchema,
     'getUserListQuerySchema':getUserListQuerySchema,
     'getUserDetailPathParamSchema':getUserDetailPathParamSchema,
     'updateUserPathParamSchema':updupdateUserPathParamSchema,
-    'updateUserSchema':updateUserSchema
+    'updateUserSchema':updateUserSchema,
+    'deleteUserPathParamSchema':deleteUserPathParamSchema
+
 }

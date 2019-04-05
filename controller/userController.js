@@ -108,3 +108,31 @@ module.exports.updateUser = async (req, res, next) => {
     return res.status (responseObj.status).send (responseObj);
   }
 };
+
+
+module.exports.deleteUser = async (req, res, next) => {
+  let responseObj = {};
+  try {
+    let data = {
+      userId: req.params.userId,
+      
+    };
+    let responseFromService = await userService.deleteUser(data);
+    switch (responseFromService.status) {
+      case constants.serviceSatus.USER_DELETED_SUCCESSFULLY:
+        responseObj.status = 204;
+        responseObj.message =
+          constants.serviceSatus.USER_DELETED_SUCCESSFULLY;
+        responseObj.body = responseFromService.body;
+        break;
+      default:
+        responseObj = constants.responseObj;
+        break;
+    }
+    return res.status (responseObj.status).send (responseObj);
+  } catch (err) {
+    console.log ('Something went wrong :Controller: delete user', err);
+    responseObj = constants.responseObj;
+    return res.status (responseObj.status).send (responseObj);
+  }
+};
