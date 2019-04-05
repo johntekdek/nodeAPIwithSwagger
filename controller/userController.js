@@ -63,8 +63,7 @@ module.exports.getUserDetail = async (req, res, next) => {
     switch (responseFromService.status) {
       case constants.serviceSatus.USER_FETCHED_SUCCESSFULLY:
         responseObj.status = 200;
-        responseObj.message =
-          constants.serviceSatus.USER_FETCHED_SUCCESSFULLY;
+        responseObj.message = constants.serviceSatus.USER_FETCHED_SUCCESSFULLY;
         responseObj.body = responseFromService.body;
         break;
       default:
@@ -84,17 +83,15 @@ module.exports.updateUser = async (req, res, next) => {
   try {
     let data = {
       userId: req.params.userId,
-      name:req.body.name,
-      phone:req.body.phone,
-      password:req.body.password,
-
+      name: req.body.name,
+      phone: req.body.phone,
+      password: req.body.password,
     };
-    let responseFromService = await userService.updateUser(data);
+    let responseFromService = await userService.updateUser (data);
     switch (responseFromService.status) {
       case constants.serviceSatus.USER_UPDATED_SUCCESSFULLY:
         responseObj.status = 200;
-        responseObj.message =
-          constants.serviceSatus.USER_UPDATED_SUCCESSFULLY;
+        responseObj.message = constants.serviceSatus.USER_UPDATED_SUCCESSFULLY;
         responseObj.body = responseFromService.body;
         break;
       default:
@@ -109,20 +106,17 @@ module.exports.updateUser = async (req, res, next) => {
   }
 };
 
-
 module.exports.deleteUser = async (req, res, next) => {
   let responseObj = {};
   try {
     let data = {
       userId: req.params.userId,
-      
     };
-    let responseFromService = await userService.deleteUser(data);
+    let responseFromService = await userService.deleteUser (data);
     switch (responseFromService.status) {
       case constants.serviceSatus.USER_DELETED_SUCCESSFULLY:
         responseObj.status = 204;
-        responseObj.message =
-          constants.serviceSatus.USER_DELETED_SUCCESSFULLY;
+        responseObj.message = constants.serviceSatus.USER_DELETED_SUCCESSFULLY;
         responseObj.body = responseFromService.body;
         break;
       default:
@@ -132,6 +126,39 @@ module.exports.deleteUser = async (req, res, next) => {
     return res.status (responseObj.status).send (responseObj);
   } catch (err) {
     console.log ('Something went wrong :Controller: delete user', err);
+    responseObj = constants.responseObj;
+    return res.status (responseObj.status).send (responseObj);
+  }
+};
+
+module.exports.authenticateUser = async (req, res, next) => {
+  let responseObj = {};
+  try {
+    let data = {
+      name: req.body.name,
+      password: req.body.password,
+    };
+    let responseFromService = await userService.deleteUser (data);
+    switch (responseFromService.status) {
+      case constants.serviceSatus.USER_AUTHENTICATED_SUCCESSFULLY:
+        responseObj.status = 200;
+        responseObj.message =
+          constants.serviceSatus.USER_AUTHENTICATED_SUCCESSFULLY;
+        responseObj.body = responseFromService.body;
+        break;
+      case constants.serviceSatus.INVALID_CREDENTIALS:
+        responseObj.status = 400;
+        responseObj.message =
+          constants.serviceSatus.INVALID_CREDENTIALS;
+        responseObj.body = responseFromService.body;
+        break;
+      default:
+        responseObj = constants.responseObj;
+        break;
+    }
+    return res.status (responseObj.status).send (responseObj);
+  } catch (err) {
+    console.log ('Something went wrong :Controller: authenticate user', err);
     responseObj = constants.responseObj;
     return res.status (responseObj.status).send (responseObj);
   }
